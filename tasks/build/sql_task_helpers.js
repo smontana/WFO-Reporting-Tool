@@ -13,22 +13,26 @@ var db_config = {
 }
 
 var default_queries = {
-  get_distinct_qpa_solutions: 'EmployeeServices.dbo.get_distinct_QPA_solutions',
-  get_distinct_qpa_supervisors: 'EmployeeServices.dbo.get_distinct_QPA_supervisors',
-  get_distinct_qpa_agents: 'EmployeeServices.dbo.get_distinct_QPA_agents'
+  get_absences_dms: 'EmployeeServices.dbo.get_absences_dms',
+  get_absences_dms_excused: 'EmployeeServices.dbo.get_absences_dms_excused',
+  get_earlies_dms: 'EmployeeServices.dbo.get_earlies_dms',
+  get_earlies_dms_excused: 'EmployeeServices.dbo.get_earlies_dms_excused',
+  get_lates_dms: 'EmployeeServices.dbo.get_lates_dms',
+  get_lates_dms_excused: 'EmployeeServices.dbo.get_lates_dms_excused'
 }
 
-var Solutions_arr = []
-var Supervisors_arr = []
-var Agents_arr = []
+var abs_arr = []
+var abs_arr_excused = []
+var early_arr = []
+var early_arr_excused = []
+var late_arr = []
+var late_arr_excused = []
 
 var sql_data = {}
 
 function set_default_config () {
   var deferred = Q.defer()
   var sql = require('seriate')
-
-  console.log('------SETTING SQL DEFAULT CONFIG------')
 
   sql.setDefault(db_config)
 
@@ -37,17 +41,14 @@ function set_default_config () {
   return deferred.promise
 }
 
-function get_all_solutions (id) {
+function get_absences (id) {
   var deferred = Q.defer()
 
-  console.log('STEP 1: Getting Solutions')
-
   sql.execute({
-    query: 'EmployeeServices.dbo.get_distinct_QPA_solutions'
+    query: 'EmployeeServices.dbo.get_absences_dms'
   }).then(function (data) {
-    Solutions_arr = data
+    abs_arr = data
 
-    console.log('STEP 1: COMPLETED Solutions Query')
     deferred.resolve(1)
   }, function (err) {
     console.log(err)
@@ -56,17 +57,14 @@ function get_all_solutions (id) {
   return deferred.promise
 }
 
-function get_all_supervisors (id) {
+function get_absences_excused (id) {
   var deferred = Q.defer()
 
-  console.log('STEP 2: Getting Supervisors')
-
   sql.execute({
-    query: 'EmployeeServices.dbo.get_distinct_QPA_supervisors'
+    query: 'EmployeeServices.dbo.get_absences_dms_excused'
   }).then(function (data) {
-    Supervisors_arr = data
+    abs_arr_excused = data
 
-    console.log('STEP 2: COMPLETED Supervisors Query')
     deferred.resolve(2)
   }, function (err) {
     console.log(err)
@@ -75,18 +73,63 @@ function get_all_supervisors (id) {
   return deferred.promise
 }
 
-function get_all_agents (id) {
+function get_earlies (id) {
   var deferred = Q.defer()
 
-  console.log('STEP 3: Getting Agents')
+  sql.execute({
+    query: 'EmployeeServices.dbo.get_earlies_dms'
+  }).then(function (data) {
+    early_arr = data
+
+    deferred.resolve(3)
+  }, function (err) {
+    console.log(err)
+  })
+
+  return deferred.promise
+}
+
+function get_earlies_excused (id) {
+  var deferred = Q.defer()
 
   sql.execute({
-    query: 'EmployeeServices.dbo.get_distinct_QPA_agents'
+    query: 'EmployeeServices.dbo.get_earlies_dms_excused'
   }).then(function (data) {
-    Agents_arr = data
+    early_arr_excused = data
 
-    console.log('STEP 3: COMPLETED Agents Query')
-    deferred.resolve(3)
+    deferred.resolve(4)
+  }, function (err) {
+    console.log(err)
+  })
+
+  return deferred.promise
+}
+
+function get_lates (id) {
+  var deferred = Q.defer()
+
+  sql.execute({
+    query: 'EmployeeServices.dbo.get_lates_dms'
+  }).then(function (data) {
+    late_arr = data
+
+    deferred.resolve(5)
+  }, function (err) {
+    console.log(err)
+  })
+
+  return deferred.promise
+}
+
+function get_lates_excused (id) {
+  var deferred = Q.defer()
+
+  sql.execute({
+    query: 'EmployeeServices.dbo.get_lates_dms_excused'
+  }).then(function (data) {
+    late_arr_excused = data
+
+    deferred.resolve(6)
   }, function (err) {
     console.log(err)
   })
@@ -96,23 +139,25 @@ function get_all_agents (id) {
 
 function build_sql_data_obj (id) {
   var deferred = Q.defer()
-  console.log('STEP 4: Building sql_data Object')
 
-  sql_data['Solutions'] = Solutions_arr
-  sql_data['Supervisors'] = Supervisors_arr
-  sql_data['Agents'] = Agents_arr
+  sql_data['Absences'] = abs_arr
+  sql_data['Absences_Excused'] = abs_arr_excused
+  sql_data['Early_Departures'] = early_arr
+  sql_data['Early_Departures_Excused'] = early_arr_excused
+  sql_data['Late_Arrivals'] = late_arr
+  sql_data['Late_Arrivals_Excused'] = late_arr_excused
 
-  console.log('STEP 4: COMPLETED Building sql_data Object')
-  deferred.resolve(4)
+  console.log('STEP 7: COMPLETED Building sql_data Object')
+  deferred.resolve(7)
   return deferred.promise
 }
 
 function console_log_this_shit (id) {
   var deferred = Q.defer()
 
-  console.log('-----SQL_DATA: ' + JSON.stringify(sql_data, null, 3))
+  console.log('-----SQL_DATA: ' + JSON.stringify(sql_data['Absences_Excused'], null, 3))
 
-  deferred.resolve(5)
+  deferred.resolve(8)
   return deferred.promise
 }
 
@@ -126,18 +171,17 @@ function write_to_file (id) {
     console.error(err)
   })
 
-  deferred.resolve(6)
+  deferred.resolve(9)
   return deferred.promise
 }
 
 function export_the_goods (id) {
   var deferred = Q.defer()
-  console.log('STEP 7: Exporting sql_data Object')
 
   module.exports = sql_data
 
-  console.log('STEP 7: COMPLETED - sql_data Object Exported')
-  deferred.resolve(7)
+  console.log('STEP 10: COMPLETED - sql_data Object Exported')
+  deferred.resolve(10)
   return deferred.promise
 }
 
@@ -147,7 +191,7 @@ function check_the_exported_goods (id) {
   // console.log('MODULE.EXPORTS[Supervisors]: ' + module.exports['Supervisors'])
   console.log('-------DONE-------')
 
-  deferred.resolve(8)
+  deferred.resolve(11)
   return deferred.promise
 }
 
@@ -156,13 +200,22 @@ var resultPromise = Q({})
 resultPromise = resultPromise.then(function () {
   return set_default_config()
     .then(function (id) {
-      return get_all_solutions(id)
+      return get_absences(id)
     })
     .then(function (id) {
-      return get_all_supervisors(id)
+      return get_absences_excused(id)
     })
     .then(function (id) {
-      return get_all_agents(id)
+      return get_earlies(id)
+    })
+    .then(function (id) {
+      return get_earlies_excused(id)
+    })
+    .then(function (id) {
+      return get_lates(id)
+    })
+    .then(function (id) {
+      return get_lates_excused(id)
     })
     .then(function (id) {
       return build_sql_data_obj(id)
