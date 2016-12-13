@@ -1,0 +1,66 @@
+mixin navbar_builder(title)
+  div.pane.pane-sm.sidebar
+    div.logo
+
+    div.sidebar-menu
+      nav.nav-group
+        h1.nav-group-title.text-center Menu
+
+        div.sidebar-menu-items
+
+          button#homepage.nav-group-item.btn.btn-large.btn-default.icon.icon-home.main-btn.main-click-el
+            = ' Home'
+
+          button#interactions.nav-group-item.btn.btn-large.btn-default.icon.icon-chart-area.main-btn.main-click-el
+            = ' Interactions'
+
+          button#attendance.nav-group-item.btn.btn-large.btn-default.icon.icon-clock.main-btn.main-click-el
+            = ' Attendance'
+
+          button#productivity.nav-group-item.btn.btn-large.btn-default.icon.icon-gauge.main-btn.main-click-el
+            = ' Productivity'
+
+          button#qpa.nav-group-item.btn.btn-large.btn-default.icon.icon-trophy.main-btn.main-click-el
+            = ' QPA'
+
+    div.sidebar-menu
+      nav.nav-group
+        h1.nav-group-title.text-center Wallboard Links
+
+        div.sidebar-menu-items.wallboard-links
+          #wallboard_sfi
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/SFIall/' type='button')
+              ='F&I'
+          #wallboard_dms
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo1/' type='button')
+              ='DMS'
+          #wallboard_rts_one
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo10/' type='button')
+              ='RTS Team 1'
+          #wallboard_rts_two
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo11/' type='button')
+              ='RTS Team 2'
+          #wallboard_rts_three
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo12/' type='button')
+              ='RTS Team 3'
+          #wallboard_rts_four
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo13/' type='button')
+              ='RTS Team 4'
+          #wallboard_rts_five
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo14/' type='button')
+              ='RTS Team 5'
+          #wallboard_crm
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/CFMAll/' type='button')
+              ='CRM'
+          #wallboard_cso
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://nhprnin001.dt.inc/IWP/Marquee/p/Billing/' type='button')
+              ='CSO (Billing)'
+          #wallboard_strategic_accts_one
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo8/' type='button')
+              ='Strategic Accts 1'
+          #wallboard_strategic_accts_one
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo9/' type='button')
+              ='Strategic Accts 2'
+          #wallboard_strategic_accts_one
+            a.nav-group-item.btn.btn-large.btn-default.wall-board-item(href='http://172.16.224.193/IWP/Marquee/p/wfo7/' type='button')
+              ='Strategic Accts 3'
