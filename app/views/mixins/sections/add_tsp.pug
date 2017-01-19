@@ -2,3 +2,39 @@ mixin add_tsp(title)
 
   .page-rows
     h1.text-center= title
+
+    span.vert-space
+
+    .big-card
+      .card-content
+        h3.text-center.tsp-title TSP Report By Week Start | All Solutions
+        #tsp_all_solutions_by_week_start_bar_chart
+
+
+    script.
+      var tsp_query = require('./main-process/db/queries/tsp_queries.js')
+      var tsp_graph_builders = require('./main-process/db/graph_builders/tsp_report_builder.js')
+
+      //- testing
+      var tsp_by_week_start_query = tsp_query.get_CallData_By_Solution_By_WeekStart
+      var weekly_tsp_all_solutions_graph_builder = tsp_graph_builders.build_all_solutions_by_week_start_OFFvsANS
+
+      function show_tsp_weekly_report() {
+        var constructed_query = tsp_query
+
+        sql.execute({
+          query: "EmployeeServices.dbo.get_CallData_By_Solution_By_WeekStart '2017-01-08'"
+        }).then(function (data) {
+          //- var data = data[0]
+          console.log(data)
+            weekly_tsp_all_solutions_graph_builder(data)
+        }, function (err) {
+          console.log(err)
+        })
+      }
+
+      window.onload = show_tsp_weekly_report()
+
+      //- $(document).ready(function(event){
+
+      //- })
